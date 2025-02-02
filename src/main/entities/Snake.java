@@ -86,6 +86,23 @@ public class Snake {
         return false;
     }
 
+    public void draw(Graphics g, int tileSize) {
+        g.setColor(Color.GREEN);
+        for (Point p : body) {
+            g.fillRect(p.x * tileSize, p.y * tileSize, tileSize, tileSize);
+        }
+    }
+
+    public boolean eat(Food food) {
+        if (getHead().equals(food.getPosition())) {
+            grow();
+            return true;
+        }
+        return false;
+    }
     
-    
+    public boolean collides() {
+        return checkCollision(); // Usa o método já existente
+    }
+     
 }

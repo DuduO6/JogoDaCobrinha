@@ -3,14 +3,16 @@ import java.awt.*;
 import java.util.Random;
 
 public class Food {
-    private Point position;
-    private int gridSize;
-    private Random random;
-    private Snake snake; // Referência para a cobra
+    protected Point position;
+    protected int gridSize;
+    protected Random random;
+    protected Snake snake;
+    private boolean isSpecial;
 
-    public Food(int gridSize, Snake snake) {
+    public Food(int gridSize, Snake snake, boolean isSpecial) {
         this.gridSize = gridSize;
-        this.snake = snake; // Armazena a referência à cobra
+        this.snake = snake;
+        this.isSpecial = isSpecial;
         this.random = new Random();
         spawn();
     }
@@ -20,16 +22,20 @@ public class Food {
             int x = random.nextInt(gridSize);
             int y = random.nextInt(gridSize);
             position = new Point(x, y);
-        } while (isOnSnake()); // Garante que a comida não nasça dentro da cobra
+        } while (isOnSnake());
     }
 
     private boolean isOnSnake() {
         for (Point part : snake.getBody()) {
             if (part.equals(position)) {
-                return true; // A comida foi gerada dentro da cobra
+                return true;
             }
         }
         return false;
+    }
+
+    public boolean isSpecial() {
+        return isSpecial;
     }
 
     public Point getPosition() {
@@ -37,7 +43,11 @@ public class Food {
     }
 
     public void draw(Graphics g, int tileSize) {
-        g.setColor(Color.RED);
+        if (isSpecial) {
+            g.setColor(Color.BLUE); // Comida especial azul
+        } else {
+            g.setColor(Color.RED); // Comida normal vermelha
+        }
         g.fillOval(position.x * tileSize, position.y * tileSize, tileSize, tileSize);
     }
 }

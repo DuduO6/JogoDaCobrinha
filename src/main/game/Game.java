@@ -1,18 +1,29 @@
 package src.main.game;
+
 import javax.swing.*;
 
-public class Game {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Snake Game");
-            Board board = new Board();
+public class Game extends JFrame {
+    private String playerName;
+    private Board board;
 
-            frame.add(board);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setResizable(false);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
+    public Game() {
+        setTitle("Jogo da Cobrinha");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Inicia em tela cheia
+        setUndecorated(true); // Remove a barra de título
+
+        playerName = JOptionPane.showInputDialog("Digite seu nome:");
+        if (playerName == null || playerName.trim().isEmpty()) {
+            playerName = "Jogador";
+        }
+
+        board = new Board(playerName);
+        add(board);
+        pack();
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Game::new);
     }
 }
